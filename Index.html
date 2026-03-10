@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI English Study</title>
+
+<style>
+body{
+font-family:-apple-system;
+background:#f2f2f7;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:16px;
+border-radius:14px;
+margin-bottom:14px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+button{
+background:black;
+color:white;
+border:none;
+padding:10px;
+border-radius:8px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:6px;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>📚 English Study App</h1>
+
+<div class="card">
+
+<h3>Upload Vocabulary CSV</h3>
+
+<input type="file" id="file">
+
+<button onclick="upload()">Upload</button>
+
+</div>
+
+<div class="card">
+
+<h3>Quiz</h3>
+
+<p id="meaning">Upload words first</p>
+
+<input id="answer" placeholder="type word">
+
+<button onclick="check()">Check</button>
+
+<p id="result"></p>
+
+<button onclick="next()">Next</button>
+
+</div>
+
+<script>
+
+let words=[]
+let index=0
+
+function upload(){
+
+let file=document.getElementById("file").files[0]
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+let rows=e.target.result.split("\n")
+
+rows.forEach(r=>{
+
+let c=r.split(",")
+
+if(c.length>=2){
+
+words.push({word:c[0],meaning:c[1]})
+
+}
+
+})
+
+show()
+
+}
+
+reader.readAsText(file)
+
+}
+
+function show(){
+
+if(words.length==0)return
+
+meaning.innerText="Meaning: "+words[index].meaning
+
+}
+
+function check(){
+
+let input=answer.value.toLowerCase()
+
+let correct=words[index].word.toLowerCase()
+
+if(input==correct){
+
+result.innerText="✅ Correct"
+
+}else{
+
+result.innerText="❌ "+correct
+
+}
+
+}
+
+function next(){
+
+index=(index+1)%words.length
+
+answer.value=""
+
+result.innerText=""
+
+show()
+
+}
+
+</script>
+
+</body>
+</html>
